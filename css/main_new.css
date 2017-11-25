@@ -1,0 +1,209 @@
+@charset "utf-8";
+body {
+}
+.banner{
+    background-image:url(../img/main-img.png);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+}
+.banner_two{
+    background-image:url(../images/main-img.png);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    min-height: 670px;
+}
+.logo{text-align:center;}
+.logo-{    float: none;
+           text-align: center;
+           display: -webkit-inline-box;}
+.main-content{text-align:center; padding-top:110px;}
+.main-content h2{font-size:34px;
+                 color:#fff;
+                 font-weight:lighter;
+                 font-family:Arial, Helvetica, sans-serif;
+                 text-transform:capitalize;}
+.main-content h6{font-size:16px;
+                 color:#ff5a00;
+                 font-weight:lighter;
+                 font-family:Arial, Helvetica, sans-serif;
+                 text-transform:capitalize;}
+.search{color: #333;
+        background-color: #fff;
+        border: #ff5a00 3px solid;
+        border-radius: 10px;
+        float: right;
+        margin-top: 14px;
+        padding: 3px 17px;}
+.search-{color: #333;
+         background-color: #fff;
+         border: #ff5a00 3px solid;
+         border-radius: 10px;
+         float: left;
+         margin-top: 14px;
+         padding: 3px 17px;}
+.symbol{float: left;
+        margin-right: 10px;
+        margin-top: 9px;}
+.search p{font-size:11px;
+          color:#000;
+          font-family:Arial, Helvetica, sans-serif;
+          font-weight:bold;
+          float:left;
+          margin-bottom:0;}
+.search p span{font-size:16px;
+               color:#000;
+               font-family:Arial, Helvetica, sans-serif;
+               font-weight:bold;
+               margin-top:0;}
+.search- p{font-size:11px;
+           color:#000;
+           font-family:Arial, Helvetica, sans-serif;
+           font-weight:bold;
+           float:left;
+           margin-bottom:0;}
+.search- p span{font-size:16px;
+                color:#000;
+                font-family:Arial, Helvetica, sans-serif;
+                font-weight:bold;
+                margin-top:0;}
+.last h5{font-size:11px;
+         color:#ff5a00;
+         font-family:Arial, Helvetica, sans-serif;
+         font-weight:bold;
+         text-align:center;
+         padding-top: 7px;
+}
+.a-{color:#ff5a00;}
+.content p{font-size: 16px;color: #fff;font-family:Arial, Helvetica, sans-serif;}
+.content{color: #fff;}
+.content h1{font-size: 27px;color: #fe5a01;font-family:Arial, Helvetica, sans-serif;margin-bottom: 20px;}
+
+.logo_new{
+    padding-top:25px;
+    text-align: center;
+    padding-bottom:25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 992px) {
+}
+
+@media screen and (max-width: 767px){
+    .btn-{text-align:center;}
+    .search {
+        color: #333;
+        background-color: #fff;
+        border: #ff5a00 3px solid;
+        border-radius: 10px;
+        margin-top: 14px;
+        padding: 3px 17px;
+        float:none;
+    }
+    .search-{color: #333;
+             background-color: #fff;
+             border: #ff5a00 3px solid;
+             border-radius: 10px;
+             float: none;
+             margin-top: 14px;
+             padding: 3px 17px;}
+    .main-content h2{font-size:28px;
+                     color:#fff;
+                     font-weight:lighter;
+                     font-family:Arial, Helvetica, sans-serif;
+                     text-transform:capitalize;}
+    .main-content h6{font-size:11px;
+                     color:#ff5a00;
+                     font-weight:lighter;
+                     font-family:Arial, Helvetica, sans-serif;
+                     text-transform:capitalize;}
+
+}
+
+
+@media screen and (max-width: 650px){
+}
+
+@media screen and (max-width: 450px){
+}
+
+@media screen and (max-width: 360px){
+}
+
+body,html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url(../img/main-img.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+}
+.main_banner{
+    /*    background-image: url(../img/main-img.jpg);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        height: 100%;
+        position: relative;*/
+
+}
+.contact-wrap{width: 100%;}
+.form-group .btn{margin-top: 10px;border: 3px solid #ff5a00;background-color: #fff;color: #323232;}
+/*************************
+********* Contact Us CSS ******
+**************************/
+
+
+
+
+#contact-page{
+    padding-top: 0;
+}
+
+#contact-page .contact-form 
+.form-group label {
+    color: #4E4E4E;
+    font-size: 16px;
+    font-weight: 300;
+}
+.form-group label {
+    color: #fff;
+}
+
+.form-group .form-control {
+    padding: 7px 12px;
+    border-color:#f2f2f2;
+    box-shadow: none;
+}
+
+textarea#message{
+    resize: none;
+    padding: 10px;
+}
+
+#contact-page .contact-wrap {
+    margin-top: 20px;
+}
+
+

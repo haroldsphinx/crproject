@@ -1,0 +1,44 @@
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="<%= (global.base_url) ? global.base_url : '..' %>/images/noavatar.png" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p><%= (sess_user) ? sess_user : '' %></p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="<%= (active_page == 'dashboard') ? 'active' : '' %> treeview">
+          <a href="/dashboard">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="treeview <%= (active_page == 'users') ? 'active' : '' %> <%= (active_page == 'team') ? 'active' : '' %> <%= (active_page == 'match') ? 'active' : '' %>">
+          <a href="#">
+            <i class="fa fa-th"></i>
+            <span>Modules</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">3</span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="<%= (active_page == 'users') ? 'active' : '' %>"><a href="/users"><i class="fa fa-user-plus"></i>Users</a></li>
+            <li class="<%= (active_page == 'team') ? 'active' : '' %>"><a href="/team"><i class="fa fa-users"></i>Team</a></li>
+            <li class="<%= (active_page == 'match') ? 'active' : '' %>"><a href="/match"><i class="fa fa-futbol-o"></i>Match</a></li>
+            <li class="<%= (active_page == 'register-request') ? 'active' : '' %>"><a href="/register-request"><i class="fa fa-user-plus"></i>Register Requests</a></li>
+            <li class="<%= (active_page == 'clients') ? 'active' : '' %>"><a href="/clients"><i class="fa fa-users"></i>Clients</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
