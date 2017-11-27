@@ -56,22 +56,22 @@ var dashboard = require('./lib/dashboard');
 var team = require('./lib/team');
 var match = require('./lib/match');
 //var registerrequest = require('./lib/registerrequest');
-//var clients = require('./lib/clients');
+var clients = require('./lib/clients');
 //
-//var api = require('./lib/api');
+var api = require('./lib/api');
 
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(login);
 app.use(users);
 app.use(dashboard);
 app.use(team);
 app.use(match);
 //app.use(registerrequest);
-//app.use(clients);
+app.use(clients);
 //
-//app.use(api);
+app.use(api);
 
 
 
@@ -100,8 +100,6 @@ var CLIENTS = {};
 
 s.on('connection', function (ws, req) {
 
-    console.log(req);
-
     ws.on('message', function (message) {
         message = JSON.parse(message);
         console.log("-----------------Broadcast message START---------------");
@@ -114,8 +112,8 @@ s.on('connection', function (ws, req) {
          */
 //        
         if (message.type === 'broadcast' && message.id === 'socket_admin') {
-            console.log(message);
-            console.log("Message recieved");
+//            console.log(message);
+//            console.log("Message recieved");
             // console.log(global.data_to_store);
             var match_id = message.data.match_id;
             match_process.saveUpdateStates(message.data.data_to_store, match_id, function (err, result) {
@@ -200,9 +198,9 @@ s.on('connection', function (ws, req) {
                 status: 'online'
             };
             //console.log(clients_data_to_store);
-//            clients_process.saveUpdateClients(Myconnection, clients_data_to_store, message.uid, function (result, message) {
-//                console.log(message);
-//            });
+            clients_process.saveUpdateClients(clients_data_to_store, message.uid, function (result, message) {
+                console.log(message);
+            });
 
         }
 //        if (message.type === 'connection_close' && message.id === 'socket_admin') {
@@ -218,11 +216,11 @@ s.on('connection', function (ws, req) {
          */
 //
         if (message.type === 'broadcast_session' && message.id === 'socket_admin') {
-            console.log(message);
-            console.log("Message recieved");
+            //console.log(message);
+            //console.log("Message recieved");
             var match_id = message.data.match_id;
             match_process.saveUpdateSession(message.data.data_to_store, match_id, function (err, result) {
-                console.log(result);
+                //console.log(result);
                 var all_saved_data = result;
                 // console.log(global.data_to_store);
                 s.clients.forEach(function e(client) {
@@ -261,7 +259,7 @@ s.on('connection', function (ws, req) {
     });
 
     ws.on('open', function () {
-        console.log("one.................");
+       // console.log("one.................");
     });
 
     ws.on('close', function () {
@@ -274,13 +272,12 @@ s.on('connection', function (ws, req) {
             updated_at: dateFormat("", 'yyyy-mm-dd HH:MM:ss'),
             status: 'offline'
         };
-//        clients_process.updateClientsStatus(Myconnection, clients_data_to_store, req.headers['sec-websocket-key'], function (result, message) {
-//            console.log(message);
-//
-//        });
+        clients_process.updateClientsStatus(clients_data_to_store, req.headers['sec-websocket-key'], function (result, message) {
+            console.log(message);
+        });
     });
 
 
-    console.log("One more client connected--!");
+    //console.log("One more client connected--!");
     // console.log("total client->" + CLIENTS.length);
 });
