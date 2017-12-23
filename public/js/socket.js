@@ -12,7 +12,7 @@ var self = this;
 //    };
 //}
 //var sock = new WebSocket("ws://52.66.189.127:5001");
-var sock = new WebSocket("ws://localhost:5002");
+var sock = new WebSocket("ws://192.168.1.9:5002");
 
 //Client side App side changes
 sock.onopen = function (event) {
@@ -29,6 +29,21 @@ sock.onopen = function (event) {
         uid: '123456',
         utype: 'desktop'
     }));
+
+    setTimeout(function(){
+         var data = {
+        'api': 'getMatchListAPI',
+        'params': {'status': 'started'},
+    };
+    sock.send(JSON.stringify({
+        type: "broadcast_api",
+        id: "socket_admin",
+        data: data,
+    }));
+        
+    }, 10000);
+   
+    
 }
 
 //Conection close
@@ -47,6 +62,16 @@ sock.onclose = function (event) {
     }));
 }
 
+
+
+sock.onmessage = function (message) {
+
+    //var message = JSON.parse(message);
+    console.log("========= client side recived message =============");
+    console.log(message);
+    console.log("========= client side recived message END =============");
+
+};
 //Client side App side changes end
 
 this.getMessages = function () {
@@ -721,7 +746,7 @@ function setSessionFields2(sel) {
     var data = {'match_id': match_id,
         session_data: session_data_obj,
         data_to_store: data_to_store_obj};
-console.log(data);
+    console.log(data);
     sock.send(JSON.stringify({
         type: "broadcast_session",
         id: "socket_admin", //'id' + (new Date()).getTime()

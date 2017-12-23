@@ -1,8 +1,0 @@
-{
-	"_id" : ObjectId("5a193d54b59ae43628f7cd2e"),
-	"device_id" : "123456",
-	"device_type" : "desktop",
-	"status" : "offline",
-	"updated_at" : "2017-11-25 17:31:45",
-	"websocket_key" : "hcgAZoY0oiQBSCPYfPilXQ=="
-},

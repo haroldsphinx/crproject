@@ -1,12 +1,13 @@
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var session = require('express-session')
+var session = require('express-session');
 var app = module.exports = express();
 var http = require('http');
 var dateFormat = require('dateformat');
 var match_process = require('./lib/match/process.js');
 var clients_process = require('./lib/clients/process.js');
+var cricapi_process = require('./lib/cricapi/process.js');
 //Websocket intial
 var Websocket = require('ws');
 var s = new Websocket.Server({port: 5002});
@@ -15,8 +16,6 @@ var globals = require('./lib/globals'); //<< globals.js path
 // default options 
 app.use(fileUpload());
 
-//var MongoClient = require('mongodb').MongoClient;
-//var ObjectID = require('mongodb').ObjectID;
 var db = require('./lib/db');
 //MongoClient.connect('mongodb://hardik_test:hardik_test@ds157325.mlab.com:57325/hardik_test', function (err, database) {
 db.connect(globals.db_url, function (err) {
@@ -30,11 +29,9 @@ db.connect(globals.db_url, function (err) {
  Setup main environments
  ------------------------------------*/
 app.set('port', process.env.PORT || 3000);
-//app.use(express.logger('dev'));
 app.use(logger('dev'));
 app.set('views', __dirname);
 app.use(express.static(__dirname + '/public')); // set this for static load assests
-//app.use("/", express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
 app.use(cookieParser('CricCommentary, storing cookies'));
@@ -59,10 +56,10 @@ var match = require('./lib/match');
 var clients = require('./lib/clients');
 //
 var api = require('./lib/api');
-
+var cricapi = require('./lib/cricapi');
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(login);
 app.use(users);
 app.use(dashboard);
@@ -72,6 +69,7 @@ app.use(match);
 app.use(clients);
 //
 app.use(api);
+app.use(cricapi);
 
 
 
@@ -161,26 +159,27 @@ s.on('connection', function (ws, req) {
          */
         if (message.type === 'connection_open' && message.id === 'socket_admin') {
             console.log("got in message of the day");
+            
             //var query = Myconnection.query('SELECT * FROM `match` as m LEFT JOIN `states` as s on `s`.`match_id` = `m`.`match_id` WHERE `m`.`status`="started" ORDER By `m`.`match_id` DESC LIMIT 10', [], function (err, rows)
 //            var query = Myconnection.query('SELECT `s`.*,`m`.*,`ss`.`session_1`, `ss`.`session_2`, `ss`.`over` as session_over, `ss`.`numbe_eleven`, `ss`.`favorite` FROM `match` as m LEFT JOIN `states` as s on `s`.`match_id` = `m`.`match_id` LEFT JOIN `session` as `ss` ON `ss`.`match_key` = `m`.`match_id` WHERE `m`.`status`="started" ORDER By `m`.`match_id` DESC LIMIT 10', [], function (err, rows)
 //            {
 //                if (err) {
 //                    console.log(err);
 //                }
-//                ws.send(
-//                        JSON.stringify({
-//                            type: 'connection_open',
-//                            response_status: '1',
-//                            data: rows
-//                        }), function ack(error) {
-//                    // If error is not defined, the send has been completed, otherwise the error
-//                    // object will indicate what failed.
-//                    if (error) {
-//                        console.log("--error--");
-//                        console.log(error);
-//                    }
-//                });
-//            });
+                ws.send(
+                        JSON.stringify({
+                            type: 'connection_open',
+                            response_status: '1',
+                            //data: rows
+                        }), function ack(error) {
+                    // If error is not defined, the send has been completed, otherwise the error
+                    // object will indicate what failed.
+                    if (error) {
+                        console.log("--error--");
+                        console.log(error);
+                    }
+                });
+            //});
 //            console.log(query.sql);
 
             var web_socket_key = req.headers['sec-websocket-key'];//message.uid;
@@ -188,8 +187,8 @@ s.on('connection', function (ws, req) {
             //ws = ws.concat(device);
             CLIENTS[web_socket_key] = ws;
 
-           // console.log("client added");
-           // console.log(CLIENTS);
+            // console.log("client added");
+            // console.log(CLIENTS);
             var clients_data_to_store = {
                 websocket_key: web_socket_key,
                 device_id: message.uid,
@@ -256,10 +255,102 @@ s.on('connection', function (ws, req) {
             //var savedata = match_process.saveUpdateSession(Myconnection, message.data.data_to_store, match_id);
 
         }
+
+        /*
+         * **************** API data Broadcast ******************************************
+         * 
+         */
+//
+        if (message.type === 'broadcast_api' && message.id === 'socket_admin') {
+
+            var api = message.data.api;
+            var params = message.data.params;
+            console.log("api call - " + api);
+            if (api == 'getMatchListAPI') {
+                match_process.getMatchListAPI(params, function (status, result) {
+                    s.clients.forEach(function e(client) {
+
+                        if (client.readyState === Websocket.OPEN) {
+                            //client !== ws &&  (use this condition to not sent to own)
+                            client.send(
+                                    JSON.stringify({
+                                        type: 'broadcast_api',
+                                        response_status: '1',
+                                        data: result
+                                    }), function ack(error) {
+                                // If error is not defined, the send has been completed, otherwise the error
+                                // object will indicate what failed.
+                                if (error) {
+                                    console.log("--error--");
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        //}
+                    });
+
+                });
+            } else if (api == 'getCricAPI') {
+                cricapi_process.getCricAPI(params, function (error, result) {
+                    console.log("====================== getCricAPI ==================");
+                    console.log(result);
+                    console.log("====================== getCricAPI END==================");
+                    s.clients.forEach(function e(client) {
+                        if (client.readyState === Websocket.OPEN) {
+                            //client !== ws &&  (use this condition to not sent to own)
+                            client.send(
+                                    JSON.stringify({
+                                        type: 'broadcast_api',
+                                        response_status: '1',
+                                        data: result
+                                    }), function ack(error) {
+                                // If error is not defined, the send has been completed, otherwise the error
+                                // object will indicate what failed.
+                                if (error) {
+                                    console.log("--error--");
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        //}
+                    });
+
+                });
+            } else if (api == 'getStaticPage') {
+
+                var fs = require('fs')
+//var file = fs.readFileSync('/path/to/small.png', 'utf8');
+                var page = params.page;
+                if (page == 'terms' || page == 'privacy' || page == 'about') {
+                    var contents = fs.readFileSync(page + '.html', 'utf8').toString();
+                     s.clients.forEach(function e(client) {
+                        if (client.readyState === Websocket.OPEN) {
+                            //client !== ws &&  (use this condition to not sent to own)
+                            client.send(
+                                    JSON.stringify({
+                                        type: 'broadcast_api',
+                                        response_status: '1',
+                                        data: contents
+                                    }), function ack(error) {
+                                // If error is not defined, the send has been completed, otherwise the error
+                                // object will indicate what failed.
+                                if (error) {
+                                    console.log("--error--");
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        //}
+                    });
+                }
+
+            }
+        }
+
     });
 
     ws.on('open', function () {
-       // console.log("one.................");
+        // console.log("one.................");
     });
 
     ws.on('close', function () {
