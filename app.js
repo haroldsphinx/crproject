@@ -131,8 +131,10 @@ s.on('connection', function (ws, req) {
                         //client !== ws &&  (use this condition to not sent to own)
                         client.send(
                                 JSON.stringify({
-                                    type: 'broadcast',
+                                    type: 'broadcast_api',
+                                    api: 'getMatchDetailAPI',
                                     response_status: '1',
+                                    status: "detail",
                                     //id: message.id,
                                     // data: message.data,
                                     data: all_saved_data
@@ -159,26 +161,26 @@ s.on('connection', function (ws, req) {
          */
         if (message.type === 'connection_open' && message.id === 'socket_admin') {
             console.log("got in message of the day");
-            
+
             //var query = Myconnection.query('SELECT * FROM `match` as m LEFT JOIN `states` as s on `s`.`match_id` = `m`.`match_id` WHERE `m`.`status`="started" ORDER By `m`.`match_id` DESC LIMIT 10', [], function (err, rows)
 //            var query = Myconnection.query('SELECT `s`.*,`m`.*,`ss`.`session_1`, `ss`.`session_2`, `ss`.`over` as session_over, `ss`.`numbe_eleven`, `ss`.`favorite` FROM `match` as m LEFT JOIN `states` as s on `s`.`match_id` = `m`.`match_id` LEFT JOIN `session` as `ss` ON `ss`.`match_key` = `m`.`match_id` WHERE `m`.`status`="started" ORDER By `m`.`match_id` DESC LIMIT 10', [], function (err, rows)
 //            {
 //                if (err) {
 //                    console.log(err);
 //                }
-                ws.send(
-                        JSON.stringify({
-                            type: 'connection_open',
-                            response_status: '1',
-                            //data: rows
-                        }), function ack(error) {
-                    // If error is not defined, the send has been completed, otherwise the error
-                    // object will indicate what failed.
-                    if (error) {
-                        console.log("--error--");
-                        console.log(error);
-                    }
-                });
+            ws.send(
+                    JSON.stringify({
+                        type: 'connection_open',
+                        response_status: '1',
+                        //data: rows
+                    }), function ack(error) {
+                // If error is not defined, the send has been completed, otherwise the error
+                // object will indicate what failed.
+                if (error) {
+                    console.log("--error--");
+                    console.log(error);
+                }
+            });
             //});
 //            console.log(query.sql);
 
@@ -265,17 +267,21 @@ s.on('connection', function (ws, req) {
 
             var api = message.data.api;
             var params = message.data.params;
+            console.log("=========== api params ==========");
+            console.log(params);
+            console.log("=========== api params END==========");
             console.log("api call - " + api);
             if (api == 'getMatchListAPI') {
                 match_process.getMatchListAPI(params, function (status, result) {
                     s.clients.forEach(function e(client) {
-
                         if (client.readyState === Websocket.OPEN) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
                                         type: 'broadcast_api',
+                                        status: params.status,
                                         response_status: '1',
+                                        api: 'getMatchListAPI',
                                         data: result
                                     }), function ack(error) {
                                 // If error is not defined, the send has been completed, otherwise the error
@@ -301,6 +307,7 @@ s.on('connection', function (ws, req) {
                             client.send(
                                     JSON.stringify({
                                         type: 'broadcast_api',
+                                        api: 'getCricAPI',
                                         response_status: '1',
                                         data: result
                                     }), function ack(error) {
@@ -323,13 +330,14 @@ s.on('connection', function (ws, req) {
                 var page = params.page;
                 if (page == 'terms' || page == 'privacy' || page == 'about') {
                     var contents = fs.readFileSync(page + '.html', 'utf8').toString();
-                     s.clients.forEach(function e(client) {
+                    s.clients.forEach(function e(client) {
                         if (client.readyState === Websocket.OPEN) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
                                         type: 'broadcast_api',
                                         response_status: '1',
+                                        api: 'getStaticPage',
                                         data: contents
                                     }), function ack(error) {
                                 // If error is not defined, the send has been completed, otherwise the error
@@ -343,6 +351,38 @@ s.on('connection', function (ws, req) {
                         //}
                     });
                 }
+
+            } else if (api == 'getMatchDetailAPI') {
+
+                match_process.getMatchDetailAPI(params, function (error, result) {
+                    console.log("======= getMatchDetailAPI ======");
+                    console.log(result);
+                    if (error) {
+                        console.log("!!error!!");
+                        console.log(error);
+                    }
+                    s.clients.forEach(function e(client) {
+                        if (client.readyState === Websocket.OPEN) {
+                            //client !== ws &&  (use this condition to not sent to own)
+                            client.send(
+                                    JSON.stringify({
+                                        type: 'broadcast_api',
+                                        response_status: '1',
+                                        api: 'getMatchDetailAPI',
+                                        data: result
+                                    }), function ack(error) {
+                                // If error is not defined, the send has been completed, otherwise the error
+                                // object will indicate what failed.
+                                if (error) {
+                                    console.log("--error--");
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        //}
+                    });
+
+                });
 
             }
         }

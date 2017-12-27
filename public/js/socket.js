@@ -30,20 +30,20 @@ sock.onopen = function (event) {
         utype: 'desktop'
     }));
 
-    setTimeout(function(){
-         var data = {
-        'api': 'getMatchListAPI',
-        'params': {'status': 'started'},
-    };
-    sock.send(JSON.stringify({
-        type: "broadcast_api",
-        id: "socket_admin",
-        data: data,
-    }));
-        
-    }, 10000);
-   
-    
+    setTimeout(function () {
+        var data = {
+            'api': 'getMatchDetailAPI',
+            'params': {'id': '5a1fd6cdb2b70f3bccb320fd'},
+        };
+        sock.send(JSON.stringify({
+            type: "broadcast_api",
+            id: "socket_admin",
+            data: data,
+        }));
+
+    }, 3000);
+
+
 }
 
 //Conection close
@@ -206,6 +206,13 @@ this.setSessionData = function () {
 
 }
 
+var ball = parseFloat($("#last_ball").val());
+//ball = toNumberString(ball);
+this.glob_ball = ball;
+//if (ball[1] >= 6) {
+//    ball = parseInt(ball[0]) + parseInt(1);
+//}
+
 function setMessageKey(sel, buttonkey) {
 
     //console.log(global.data_to_store);
@@ -331,6 +338,22 @@ function setMessageKey(sel, buttonkey) {
                 $('input[name="strick"]').not(':checked').prop("checked", true);
                 over = parseInt(over_ex[0]) + parseInt(1);
             }
+            //Six Ball 
+            self.glob_ball++;
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
+            }
+            $("#"+"ball_" + self.glob_ball).val(message_ext[0]);
+            $("#last_ball").val(self.glob_ball);
+            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+            //
+            
             over = parseFloat(over).toFixed(1);
             over = (over === undefined || over === null) ? 0 : over;
             self.data_to_store[match_id]["over"] = over || 0;
@@ -364,11 +387,32 @@ function setMessageKey(sel, buttonkey) {
                     $('input[name="strick"]').not(':checked').prop("checked", true);
                     over = parseInt(over_ex[0]) + parseInt(1);
                 }
+                //Six Ball 
+//                var ball = over_ex[1];
+//                console.log("ball_" + ball);
+//                self.data_to_store[match_id]["ball_" + ball] = "W";
+
                 over = parseFloat(over).toFixed(1);
                 over = (over === undefined || over === null) ? 0 : over;
                 self.data_to_store[match_id]["over"] = over || 0;
                 self.match_data[match_id]["over_text"] = over || 0;
                 //Over Data End
+
+                //Six Ball 
+                self.glob_ball++;
+                if (self.glob_ball <= 6) {
+                    console.log("self - ball_" + self.glob_ball);
+                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
+                } else {
+                    self.glob_ball = 0;
+                    self.glob_ball++;
+                    console.log("self - ball_" + self.glob_ball);
+                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
+                }
+                $("#"+"ball_" + self.glob_ball).val("W");
+                $("#last_ball").val(self.glob_ball);
+                self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+                //Six Ball end
 
                 new_wicket = (new_wicket === undefined || new_wicket === null) ? 0 : new_wicket;
                 self.data_to_store[match_id]["wicket"] = new_wicket || 0;
@@ -392,6 +436,27 @@ function setMessageKey(sel, buttonkey) {
             self.match_data[match_id]["run_text"] = new_run || 0;
             //Run Data End
 
+            //Six Ball 
+            self.glob_ball++;
+            if (message_ext[0] != 0) {
+                var ball_txt = "WD" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "WD";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
+            $("#last_ball").val(self.glob_ball);
+            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+            //Six Ball end
+
         }
         if (message_ext[1] === "nb") {
             //Run Data 
@@ -399,6 +464,28 @@ function setMessageKey(sel, buttonkey) {
             self.data_to_store[match_id]["run"] = new_run || 0;
             self.match_data[match_id]["run_text"] = new_run || 0;
             //Run Data End
+
+            //Six Ball 
+            self.glob_ball++;
+            if (message_ext[0] != 0) {
+                var ball_txt = "NB" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "NB";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
+            $("#last_ball").val(self.glob_ball);
+            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+            
+            //Six Ball end
         }
         if (message_ext[1] === "lb") {
             //Run Data 
@@ -411,16 +498,39 @@ function setMessageKey(sel, buttonkey) {
             var over = (parseFloat(self.match_data[match_id]["over_text"]) + parseFloat(0.1)).toFixed(1);
             over = toNumberString(over);
             var over_ex = over.split(".");
+
             if (over_ex[1] >= 6) {
                 $('input[name="strick"]').not(':checked').prop("checked", true);
                 over = parseInt(over_ex[0]) + parseInt(1);
             }
+
             over = parseFloat(over).toFixed(1);
             over = (over === undefined || over === null) ? 0 : over;
             self.data_to_store[match_id]["over"] = over || 0;
             self.match_data[match_id]["over_text"] = over || 0;
             //Over Data End
 
+            //Six Ball 
+            self.glob_ball++;
+            if (message_ext[0] != 0) {
+                var ball_txt = "LB" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "LB";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
+            $("#last_ball").val(self.glob_ball);
+            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+            //Six Ball end
+            //
             //Batsman Data
             //#BALL
             var batsman_ball = batsman_strick + "_ball";
@@ -451,6 +561,27 @@ function setMessageKey(sel, buttonkey) {
             self.data_to_store[match_id]["over"] = over || 0;
             self.match_data[match_id]["over_text"] = over || 0;
             //Over Data End
+
+            //Six Ball 
+            self.glob_ball++;
+            if (message_ext[0] != 0) {
+                var ball_txt = "B" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "B";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
+            $("#last_ball").val(self.glob_ball);
+            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
+            //Six Ball end
 
             //Batsman Data
             //#BALL
@@ -494,6 +625,11 @@ function setMessageKey(sel, buttonkey) {
             data_to_store_obj[key] = self.data_to_store[match_id][key];
         }
     }
+    data_to_store_obj["other_team_name"] = $("#other_team_name").val();
+    data_to_store_obj["other_team_id"] = $("#other_team_id").val();
+    data_to_store_obj["other_team_score"] = $("#other_team_score").val();
+    data_to_store_obj["other_team_wicket"] = $("#other_team_wicket").val();
+    data_to_store_obj["other_team_overs"] = $("#other_team_overs").val();
     console.log(data_to_store_obj);
     var data = {'message': message, 'match_id': match_id, 'strick': strick,
         match_data: match_data_obj,
@@ -560,7 +696,11 @@ function setStatesFields(sel) {
         if (key != 'match_id')
             data_to_store_obj[key] = data_to_store_one[key];
     }
-
+    data_to_store_obj["other_team_name"] = $("#other_team_name").val();
+    data_to_store_obj["other_team_id"] = $("#other_team_id").val();
+    data_to_store_obj["other_team_score"] = $("#other_team_score").val();
+    data_to_store_obj["other_team_wicket"] = $("#other_team_wicket").val();
+    data_to_store_obj["other_team_overs"] = $("#other_team_overs").val();
     var data = {'match_id': match_id,
         match_data: match_data_obj,
         data_to_store: data_to_store_obj};
@@ -600,7 +740,11 @@ function setMessageKey_text(sel) {
         if (key != 'match_id')
             data_to_store_obj[key] = data_to_store_one[key];
     }
-
+    data_to_store_obj["other_team_name"] = $("#other_team_name").val();
+    data_to_store_obj["other_team_id"] = $("#other_team_id").val();
+    data_to_store_obj["other_team_score"] = $("#other_team_score").val();
+    data_to_store_obj["other_team_wicket"] = $("#other_team_wicket").val();
+    data_to_store_obj["other_team_overs"] = $("#other_team_overs").val();
     var data = {'match_id': match_id,
         match_data: match_data_obj,
         data_to_store: data_to_store_obj};
