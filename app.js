@@ -131,10 +131,11 @@ s.on('connection', function (ws, req) {
                         //client !== ws &&  (use this condition to not sent to own)
                         client.send(
                                 JSON.stringify({
+                                    name: 'states_updates',
                                     type: 'broadcast_api',
                                     api: 'getMatchDetailAPI',
                                     response_status: '1',
-                                    status: "detail",
+                                    status: "detail_states",
                                     //id: message.id,
                                     // data: message.data,
                                     data: all_saved_data
@@ -235,8 +236,11 @@ s.on('connection', function (ws, req) {
                         //client !== ws &&  (use this condition to not sent to own)
                         client.send(
                                 JSON.stringify({
-                                    type: 'broadcast',
+                                    name: 'session_updates',
+                                    type: 'broadcast_api',
+                                    api: 'getMatchDetailAPI',
                                     response_status: '1',
+                                    status: "detail_session",
                                     //id: message.id,
                                     // data: message.data,
                                     data: all_saved_data
@@ -278,6 +282,7 @@ s.on('connection', function (ws, req) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
+                                        name: 'api_1',
                                         type: 'broadcast_api',
                                         status: params.status,
                                         response_status: '1',
@@ -306,6 +311,7 @@ s.on('connection', function (ws, req) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
+                                        name: 'api_2',
                                         type: 'broadcast_api',
                                         api: 'getCricAPI',
                                         response_status: '1',
@@ -335,6 +341,7 @@ s.on('connection', function (ws, req) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
+                                        name: 'api_3',
                                         type: 'broadcast_api',
                                         response_status: '1',
                                         api: 'getStaticPage',
@@ -366,9 +373,45 @@ s.on('connection', function (ws, req) {
                             //client !== ws &&  (use this condition to not sent to own)
                             client.send(
                                     JSON.stringify({
+                                        name: 'api_4',
+                                        status: 'detail_all',
                                         type: 'broadcast_api',
                                         response_status: '1',
                                         api: 'getMatchDetailAPI',
+                                        data: result
+                                    }), function ack(error) {
+                                // If error is not defined, the send has been completed, otherwise the error
+                                // object will indicate what failed.
+                                if (error) {
+                                    console.log("--error--");
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        //}
+                    });
+
+                });
+
+            } else if (api == 'getCricStartedMatchAPI') {
+
+                match_process.getCricStartedMatchAPI(params, function (error, result) {
+                    console.log("======= getCricStartedMatchAPI ======");
+                    console.log(result);
+                    if (error) {
+                        console.log("!!error!!");
+                        console.log(error);
+                    }
+                    s.clients.forEach(function e(client) {
+                        if (client.readyState === Websocket.OPEN) {
+                            //client !== ws &&  (use this condition to not sent to own)
+                            client.send(
+                                    JSON.stringify({
+                                        name: 'api_5',
+                                        status: 'cric_started_matches',
+                                        type: 'broadcast_api',
+                                        response_status: '1',
+                                        api: 'getCricStartedMatchAPI',
                                         data: result
                                     }), function ack(error) {
                                 // If error is not defined, the send has been completed, otherwise the error

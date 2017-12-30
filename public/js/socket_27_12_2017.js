@@ -32,8 +32,8 @@ sock.onopen = function (event) {
 
     setTimeout(function () {
         var data = {
-            'api': 'getCricStartedMatchAPI',
-            'params': {},
+            'api': 'getMatchDetailAPI',
+            'params': {'id': '5a1fd6cdb2b70f3bccb320fd'},
         };
         sock.send(JSON.stringify({
             type: "broadcast_api",
@@ -135,67 +135,6 @@ this.getMessages = function () {
     return messages;
 }
 
-this.getMessagesSingular = function () {
-    var messages = {
-        'ball': "Ball",
-        "0_run": "0",
-        "1_run": "1",
-        "2_run": "2",
-        "3_run": "3",
-        "4_run": "4",
-        "5_run": "5",
-        "6_run": "6",
-        "1_wicket": "W",
-        "inair": "Ball in the Air",
-        "timeout": "Time Out!",
-        "thirdumpire": "Third Umpire",
-        // "bowlerhold" : "Bowler Ruka",
-        "freehit": "Free Hit!",
-        //  "catchout" : "Catch Out!",
-        "catchdrop": "Catch Droped!",
-        "notout": "Not Out",
-//            "decisionpending":'Decision Pending',
-        'over': 'Over',
-        //  "ruko" : "Ruko Ruko Ruko",
-        "1_wide": "WD",
-        "2_wide": "WD+1",
-        "3_wide": "WD+2",
-        "4_wide": "WD+3",
-        "5_wide": "WD+4",
-        "1_nb": "NB",
-        "2_nb": "NB+1",
-        "3_nb": "NB+2",
-        "4_nb": "NB+3",
-        "5_nb": "NB+4",
-        "6_nb": "NB+5",
-        "7_nb": "NB+6",
-        "1_lb": "LB+1",
-        "2_lb": "LB+2",
-        "3_lb": "LB+3",
-        "4_lb": "LB+4",
-        "5_lb": "LB+5",
-        "1_b": "B+1",
-        "2_b": "B+2",
-        "3_b": "B+3",
-        "4_b": "B+4",
-        "5_b": "B+5",
-        "spinner": "Spinner Aya",
-        "faster": "Faster Aya",
-        "bowler_ruka": "Bowler Ruka",
-        "chalu_rakho_chalu": "Chalu rakho chalu",
-        "security_problem_he": "Security problem he",
-        "umpire_check_karega": "Umpire Check karega",
-        "barish_chalu": "Barish Chalu",
-        "game_ruka": "Game ruka hua hai!",
-        "player_aa_gaye": "Player aa Gaye!",
-        "kalmilenge_dosto": "Kal Milenge Dosto!",
-        "barish_ruka": "Barish ruka Hai",
-        "cover_a_gaye": "Cover aa Gaye",
-        "cover_hata_diye": "Cover hata Diye",
-    };
-    return messages;
-}
-
 this.setMatchData = function () {
 
     var match_id = $("#match_id").val();
@@ -267,9 +206,6 @@ this.setSessionData = function () {
 
 }
 
-
-
-this.balls_array_count = parseInt($("#balls_array_count").val());
 var ball = parseFloat($("#last_ball").val());
 //ball = toNumberString(ball);
 this.glob_ball = ball;
@@ -357,8 +293,7 @@ function setMessageKey(sel, buttonkey) {
     var message_ext = message_text.split("_");
     var strick = strick;
     var batsman_strick;
-    var allMessages = self.getMessages();
-    var allMessagesSingular = self.getMessagesSingular();
+
     if (message_ext[0]) {
         if (strick == 'strick_1') {
             batsman_strick = "batsman_1";
@@ -405,33 +340,20 @@ function setMessageKey(sel, buttonkey) {
             }
             //Six Ball 
             self.glob_ball++;
-//            if (self.glob_ball <= 6) {
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
-//            } else {
-//                self.glob_ball = 0;
-//                self.glob_ball++;
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
-//            }
-            var ball_txt = allMessagesSingular[message_text];
-            $("#" + "ball_" + self.glob_ball).val(ball_txt);
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = message_ext[0];
+            }
+            $("#"+"ball_" + self.glob_ball).val(message_ext[0]);
             $("#last_ball").val(self.glob_ball);
-            //
-            self.balls_array_count++
-//            if (self.balls_array_count <= 6) {
-//                self.balls_array.pop();
-//                self.balls_array.unshift(ball_txt);
-//            } else {
-            self.balls_array.shift();
-            self.balls_array.push(ball_txt);
-
-            //}
             self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.data_to_store[match_id]["balls_array"] = self.balls_array;
-            self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
             //
-
+            
             over = parseFloat(over).toFixed(1);
             over = (over === undefined || over === null) ? 0 : over;
             self.data_to_store[match_id]["over"] = over || 0;
@@ -478,31 +400,18 @@ function setMessageKey(sel, buttonkey) {
 
                 //Six Ball 
                 self.glob_ball++;
-//                if (self.glob_ball <= 6) {
-//                    console.log("self - ball_" + self.glob_ball);
-//                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
-//                } else {
-//                    self.glob_ball = 0;
-//                    self.glob_ball++;
-//                    console.log("self - ball_" + self.glob_ball);
-//                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
-//                }
-                var ball_txt = allMessagesSingular[message_text];
-                $("#" + "ball_" + self.glob_ball).val(ball_txt);
+                if (self.glob_ball <= 6) {
+                    console.log("self - ball_" + self.glob_ball);
+                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
+                } else {
+                    self.glob_ball = 0;
+                    self.glob_ball++;
+                    console.log("self - ball_" + self.glob_ball);
+                    self.data_to_store[match_id]["ball_" + self.glob_ball] = "W";
+                }
+                $("#"+"ball_" + self.glob_ball).val("W");
                 $("#last_ball").val(self.glob_ball);
-
-                self.balls_array_count++
-//                if (self.balls_array_count <= 6) {
-//                    self.balls_array.pop();
-//                    self.balls_array.unshift(ball_txt);
-//                } else {
-                self.balls_array.shift();
-                self.balls_array.push(ball_txt);
-
-                //}
                 self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-                self.data_to_store[match_id]["balls_array"] = self.balls_array;
-                self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
                 //Six Ball end
 
                 new_wicket = (new_wicket === undefined || new_wicket === null) ? 0 : new_wicket;
@@ -529,38 +438,23 @@ function setMessageKey(sel, buttonkey) {
 
             //Six Ball 
             self.glob_ball++;
-//            if (message_ext[0] > 1) {
-//                var ball_txt = "WD" + "+" + message_ext[0];
-//            } else {
-//                var ball_txt = "WD";
-//            }
-            var ball_txt = allMessagesSingular[message_text];
-//            if (self.glob_ball <= 6) {
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            } else {
-//                self.glob_ball = 0;
-//                self.glob_ball++;
-//                console.log("self - ball_" + self.glob_ball);
-//
-//            }
-            self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-            $("#" + "ball_" + self.glob_ball).val(ball_txt);
+            if (message_ext[0] != 0) {
+                var ball_txt = "WD" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "WD";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
             $("#last_ball").val(self.glob_ball);
-//            self.balls_array.shift();
-//            self.balls_array.push(ball_txt);
-//            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.balls_array_count++
-//            if (self.balls_array_count <= 6) {
-//                self.balls_array.pop();
-//                self.balls_array.unshift(ball_txt);
-//            } else {
-            self.balls_array.shift();
-            self.balls_array.push(ball_txt);
-            //}
             self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.data_to_store[match_id]["balls_array"] = self.balls_array;
-            self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
             //Six Ball end
 
         }
@@ -573,38 +467,24 @@ function setMessageKey(sel, buttonkey) {
 
             //Six Ball 
             self.glob_ball++;
-//            if (message_ext[0] > 1) {
-//                var ball_txt = "NB" + "+" + message_ext[0];
-//            } else {
-//                var ball_txt = "NB";
-//            }
-            var ball_txt = allMessagesSingular[message_text];
-//            if (self.glob_ball <= 6) {
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            } else {
-//                self.glob_ball = 0;
-//                self.glob_ball++;
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            }
-            $("#" + "ball_" + self.glob_ball).val(ball_txt);
+            if (message_ext[0] != 0) {
+                var ball_txt = "NB" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "NB";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
             $("#last_ball").val(self.glob_ball);
-//            self.balls_array.shift();
-//            self.balls_array.push(ball_txt);
-//            self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.balls_array_count++
-//            if (self.balls_array_count <= 6) {
-//                self.balls_array.pop();
-//                self.balls_array.unshift(ball_txt);
-//            } else {
-            self.balls_array.shift();
-            self.balls_array.push(ball_txt);
-
-            //}
             self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.data_to_store[match_id]["balls_array"] = self.balls_array;
-            self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
+            
             //Six Ball end
         }
         if (message_ext[1] === "lb") {
@@ -632,35 +512,23 @@ function setMessageKey(sel, buttonkey) {
 
             //Six Ball 
             self.glob_ball++;
-//            if (message_ext[0] > 1) {
-//                var ball_txt = "LB" + "+" + message_ext[0];
-//            } else {
-//                var ball_txt = "LB";
-//            }
-            var ball_txt = allMessagesSingular[message_text];
-//            if (self.glob_ball <= 6) {
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            } else {
-//                self.glob_ball = 0;
-//                self.glob_ball++;
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            }
-            $("#" + "ball_" + self.glob_ball).val(ball_txt);
+            if (message_ext[0] != 0) {
+                var ball_txt = "LB" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "LB";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
             $("#last_ball").val(self.glob_ball);
-            self.balls_array_count++
-//            if (self.balls_array_count <= 6) {
-//                self.balls_array.pop();
-//                self.balls_array.unshift(ball_txt);
-//            } else {
-            self.balls_array.shift();
-            self.balls_array.push(ball_txt);
-
-            //}
             self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.data_to_store[match_id]["balls_array"] = self.balls_array;
-            self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
             //Six Ball end
             //
             //Batsman Data
@@ -696,35 +564,23 @@ function setMessageKey(sel, buttonkey) {
 
             //Six Ball 
             self.glob_ball++;
-//            if (message_ext[0] > 1) {
-//                var ball_txt = "B" + "+" + message_ext[0];
-//            } else {
-//                var ball_txt = "B";
-//            }
-            var ball_txt = allMessagesSingular[message_text];
-//            if (self.glob_ball <= 6) {
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            } else {
-//                self.glob_ball = 0;
-//                self.glob_ball++;
-//                console.log("self - ball_" + self.glob_ball);
-//                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
-//            }
-            $("#" + "ball_" + self.glob_ball).val(ball_txt);
+            if (message_ext[0] != 0) {
+                var ball_txt = "B" + "+" + message_ext[0];
+            } else {
+                var ball_txt = "B";
+            }
+            if (self.glob_ball <= 6) {
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            } else {
+                self.glob_ball = 0;
+                self.glob_ball++;
+                console.log("self - ball_" + self.glob_ball);
+                self.data_to_store[match_id]["ball_" + self.glob_ball] = ball_txt;
+            }
+            $("#"+"ball_" + self.glob_ball).val(ball_txt);
             $("#last_ball").val(self.glob_ball);
-            self.balls_array_count++
-//            if (self.balls_array_count <= 6) {
-//                self.balls_array.pop();
-//                self.balls_array.unshift(ball_txt);
-//            } else {
-            self.balls_array.shift();
-            self.balls_array.push(ball_txt);
-
-            //}
             self.data_to_store[match_id]["last_ball"] = self.glob_ball;
-            self.data_to_store[match_id]["balls_array"] = self.balls_array;
-            self.data_to_store[match_id]["balls_array_count"] = self.balls_array_count;
             //Six Ball end
 
             //Batsman Data
@@ -740,16 +596,7 @@ function setMessageKey(sel, buttonkey) {
 
 
     }
-    console.log("============= ball array =============");
-    console.log(self.balls_array);
-    $("#balls_array_count").val(balls_array_count);
-    for (var i = 0; i < (self.balls_array_count <= 6 ? self.balls_array_count : 6); i++) {
-        var z = parseInt(i) + parseInt(1);
-        $("#ball_" + z).val(self.balls_array[i]);
-        console.log(self.balls_array[i]);
-    }
-    console.log("============= ball array end =============");
-
+    var allMessages = self.getMessages();
 
     self.data_to_store[match_id]["message"] = allMessages[message_text];
     self.data_to_store[match_id]["message_key"] = message_text;
@@ -825,22 +672,11 @@ function setStatesFields(sel) {
 //    var bat_val = batsman_strick_value + " *";
 //    self.match_data[match_id][batsman_strick + "_text"] = bat_val;
     //End strick val
-    var ball_n_array = ["ball_1", "ball_2", "ball_3", "ball_4", "ball_5", "ball_6"];
-    if (ball_n_array.indexOf(filed_name) >= 0) {
-        var ball_1 = $("#ball_1").val();
-        var ball_2 = $("#ball_2").val();
-        var ball_3 = $("#ball_3").val();
-        var ball_4 = $("#ball_4").val();
-        var ball_5 = $("#ball_5").val();
-        var ball_6 = $("#ball_6").val();
-        data_to_store_one["balls_array"] = [ball_1, ball_2, ball_3, ball_4, ball_5, ball_6];
-    } else {
-        data_to_store_one[filed_name] = filed_value;
-    }
+
+    data_to_store_one[filed_name] = filed_value;
     //data_to_store_one["match_id"] = match_id;
-    console.log("=================== data to store one ==============");
+
     console.log(data_to_store_one);
-    console.log("=================== data to store one end==============");
 
     //Set Up all fields in constant
     self.setMatchData();
@@ -967,21 +803,20 @@ function setSessionFields(sel) {
 
 function setSessionFields2(sel) {
     var data_to_store_one = [];
-    var filed_name = sel.name;
-    var filed_value = sel.value;
-    var match_id = $("#match_id").val();
-
-    if (filed_name == 'market_rate') {
-        //field_values
-        var filed_name_1 = "market_rate_1";
-        var filed_name_2 = "market_rate_2";
-        var field_values = filed_value.split("-");
-    }
+//    var filed_name = sel.name;
+//    var filed_value = sel.value;
+//    var match_id = $("#match_id").val();
+//    if (filed_name == 'market_rate') {
+//        var filed_name_1 = "market_rate_1";
+//        var filed_name_2 = "market_rate_2";
+//
+//    }
 //    if (filed_name == 'session') {
 //        var filed_name_1 = "session_1";
 //        var filed_name_2 = "session_2";
 //
 //    }
+//    var field_values = filed_value.split("-");
 
 //    var filed_name = sel.name;
 //    var filed_value = sel.value;
@@ -1005,9 +840,9 @@ function setSessionFields2(sel) {
 //        field_values[1] = session_1_init;
 //    }
 
-//    var filed_name = sel.name;
-//    var filed_value = sel.value;
-//    var match_id = $("#match_id").val();
+    var filed_name = sel.name;
+    var filed_value = sel.value;
+    var match_id = $("#match_id").val();
 //    if (filed_name == 'market_rate_1') {
 //        var market_rate_2_init = parseInt(filed_value) + parseInt(2);
 //        $("#market_rate_2").val(market_rate_2_init);
@@ -1021,29 +856,19 @@ function setSessionFields2(sel) {
             var session_1_init = parseInt(filed_value) + parseInt(session_cal);
             $("#session_2").val(session_1_init);
         }
-
-        var filed_name_1 = "session_1";
-        var filed_name_2 = "session_2";
-        var filed_value_1 = $("#session_1").val();
-        var filed_value_2 = $("#session_2").val();
     }
 
-    if (filed_name_1 == 'market_rate_1') {
-        var filed_value_1 = field_values[0]
-        var filed_value_2 = field_values[1]
-    }
-
-//    if (filed_name == "session_1") {
-//
-//    }
-
+    var filed_name_1 = "session_1";
+    var filed_name_2 = "session_2";
+    var filed_value_1 = $("#session_1").val();
+    var filed_value_2 = $("#session_2").val();
 //    var over = $("#over").val();
     var numbe_eleven = ($('#numbe_eleven').is(':checked')) ? "1" : "0";
 
     data_to_store_one[filed_name_1] = filed_value_1;
     data_to_store_one[filed_name_2] = filed_value_2;
     data_to_store_one["numbe_eleven"] = numbe_eleven;
-    console.log(data_to_store_one);
+
     //data_to_store_one["match_key"] = match_id;
 
     self.setSessionData();
