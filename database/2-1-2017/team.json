@@ -1,0 +1,119 @@
+{
+	"_id" : ObjectId("5a14169fc43efb1dccca90fd"),
+	"image" : null,
+	"status" : "Active",
+	"team_name" : "Team 1",
+	"team_shortname" : "team1"
+},
+{
+	"_id" : ObjectId("5a141847315f7116dc29d08d"),
+	"image" : "team_1511269432250.jpg",
+	"status" : "Active",
+	"team_name" : "Team 2",
+	"team_shortname" : "team2"
+},
+{
+	"_id" : ObjectId("5a1418be315f7116dc29d08e"),
+	"image" : null,
+	"status" : "Active",
+	"team_name" : "Team 3",
+	"team_shortname" : "team3"
+},
+{
+	"_id" : ObjectId("5a26610ed45bb11afce81a2f"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Hong Kong",
+	"team_shortname" : "HK"
+},
+{
+	"_id" : ObjectId("5a266866d45bb11afce81a30"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Papua New Guinea",
+	"team_shortname" : "PNG"
+},
+{
+	"_id" : ObjectId("5a38a1fb9d2ff539986c8d2d"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Sydney Thunder",
+	"team_shortname" : "ST"
+},
+{
+	"_id" : ObjectId("5a38a20e9d2ff539986c8d2e"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Sydney Sixers",
+	"team_shortname" : "SS"
+},
+{
+	"_id" : ObjectId("5a38a2f99d2ff539986c8d2f"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Chitwan Tigers",
+	"team_shortname" : "CT"
+},
+{
+	"_id" : ObjectId("5a38a30a9d2ff539986c8d30"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Pokhara Rhinos",
+	"team_shortname" : "PR"
+},
+{
+	"_id" : ObjectId("5a3b3dbf78c5411b883045c6"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Lankan Cricket Club",
+	"team_shortname" : "LCC"
+},
+{
+	"_id" : ObjectId("5a3b3dc878c5411b883045c7"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Sri Lanka Air Force Sports Club",
+	"team_shortname" : "SLASC"
+},
+{
+	"_id" : ObjectId("5a3b3dda78c5411b883045c8"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Kalutara Town Club",
+	"team_shortname" : "KTC"
+},
+{
+	"_id" : ObjectId("5a3b3de178c5411b883045c9"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Panadura Sports Club",
+	"team_shortname" : "PSC"
+},
+{
+	"_id" : ObjectId("5a3b3e1f78c5411b883045ca"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Galle Cricket Club",
+	"team_shortname" : "GCC"
+},
+{
+	"_id" : ObjectId("5a3b3e2778c5411b883045cb"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Negambo Cricket Club",
+	"team_shortname" : "NCC"
+},
+{
+	"_id" : ObjectId("5a46041a07ee6c2578690cb7"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Water and Power Development Authority",
+	"team_shortname" : "WPDA"
+},
+{
+	"_id" : ObjectId("5a46042807ee6c2578690cb8"),
+	"image" : "",
+	"status" : "Active",
+	"team_name" : "Sui Southern Gas Corporation",
+	"team_shortname" : "SSGC"
+},

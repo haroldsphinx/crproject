@@ -57,6 +57,7 @@ var clients = require('./lib/clients');
 //
 var api = require('./lib/api');
 var cricapi = require('./lib/cricapi');
+var notifications = require('./lib/notifications');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -70,6 +71,7 @@ app.use(clients);
 //
 app.use(api);
 app.use(cricapi);
+app.use(notifications);
 
 
 

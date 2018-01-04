@@ -1,0 +1,34 @@
+{
+	"_id" : ObjectId("5a12a629a733b203ac6e0502"),
+	"device_id" : NumberInt("123456"),
+	"device_type" : "Ios",
+	"password_hash" : "a+Tm6M7kFI0r+FEGz9L7MnabRNGzAm1mbg3as3WKfTjTTHOy2Rhws0toQnws/Bvm6DlX8StuLHUSveiGkmZllz4snoeXJiFdSl/Of0ZKLVt/WcxmPJcOLc1PN1xwhyygTGy3CN0n5L8w79tqqWrEobaxygnAhe8ddV1wvbm/YsU=",
+	"password_salt" : "Dh2qQC03HqAbXowyUoHChTy52ajn+8X5oiomOMupMrpLnqmsxcLG0SRRPUC6QK0SlOKp1oqwph8o4CFtDuzXnCmBp24hQ39z15jtBicuEhK12LPzUrReXcpbespZyRcXan2UvBGa8gE9iAGQVvOeJKVyTVLSQE8jzgN4iY8ajRE=",
+	"status" : NumberInt("1"),
+	"type_of_membership" : "admin",
+	"username" : "admin"
+},
+{
+	"_id" : ObjectId("5a12d6a838f1dc0abc95112f"),
+	"amount" : "500",
+	"enddate" : "2017-11-28",
+	"logged_in" : "0",
+	"password_hash" : "CBBqURywtS5Ta4n63vWYYfUh+cKOhpqRDchHk8CHebuPHdfIAQYX885pBRlyH6i4atZ0xOrMD0yF24E5Yo2fiIDXWzHBDP+EbdYvDxXicPkl1APLqNI/ksWotb3Se4vR+IfO3yUlBFT2lak67/pmWRXwz8P7YfuIYQa+1T/PzOI=",
+	"password_salt" : "GfJsywWnSwdcJk0T3ivSBWYyl2u9TYecvts+SfpLLOu2CtD73eK4BRNDHevaxtOwV7+bI01lD0swYML2BG4/NWeL+hrqa9sFqJ51f2knoEYgyc/SqLfZcqd9oOR1LYcaPXKcdkgAUFZTPlhVJj06EoyiWLB4lBdwiT9LNbAPYQ4=",
+	"startdate" : "2017-11-20",
+	"status" : "1",
+	"type_of_membership" : "admin",
+	"username" : "hardik"
+},
+{
+	"_id" : ObjectId("5a1405cbb051b731d434e8d2"),
+	"amount" : "200",
+	"enddate" : "2017-11-30",
+	"logged_in" : null,
+	"password_hash" : "fzD+nL2GNKHsUrfenuKBxaKN+SHTnlus1VHuxZ4shTJl1v8mRYP+5Lh/+e3pUBPRuhWb5OWlmhmG02pOXVB5JSTzNocpN+nG+W5hrVU51HJ7TR32zoooUbRifbyKyJOemfy+vpA0QaV+3/WqT4sVc0F7fPIzFVk+DvCiNUIZfZk=",
+	"password_salt" : "zWmEETL/nZsx3nxFyMcGnqUNMeWPkDMiy4lfSaL7CRsXhYiOBHXPFbWP/A3VaTW68b3YBbgCzVIFScTpLYgxXfs+pz1ceDbQmmrEmnPC8y7lgcIx1yGQH4aBHOHT+bWSc6SrIMMajOPXsVy6HFP2g/c5wQteNHeWopDWBYpOGf4=",
+	"startdate" : "2017-11-21",
+	"status" : "1",
+	"type_of_membership" : "normal_user",
+	"username" : "hardik1"
+},

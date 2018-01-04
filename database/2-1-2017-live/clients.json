@@ -1,0 +1,40 @@
+{
+	"_id" : ObjectId("5a2139bd04af7c34b47a9101"),
+	"device_id" : "1904BCE7-1A91-4C4A-B922-827984A6DD39",
+	"device_type" : "Ios",
+	"status" : "offline",
+	"updated_at" : "2017-12-22 19:32:45",
+	"websocket_key" : "amp2aGVvYmZucmZkaXF5Zw=="
+},
+{
+	"_id" : ObjectId("5a193d54b59ae43628f7cd2e"),
+	"device_id" : "123456",
+	"device_type" : "desktop",
+	"status" : "offline",
+	"updated_at" : "2018-01-02 05:57:24",
+	"websocket_key" : "KCQIMo3bv6E3BWkStR2LtQ=="
+},
+{
+	"_id" : ObjectId("5a28d4d220dfd21648105738"),
+	"device_id" : "59762EC5-D409-42E7-B77A-45B69666912D",
+	"device_type" : "Ios",
+	"status" : "offline",
+	"updated_at" : "2017-12-07 17:57:49",
+	"websocket_key" : "c29zZ2RoY2JubHhhbnh3dQ=="
+},
+{
+	"_id" : ObjectId("5a2fd190e9712c326c8334ed"),
+	"device_id" : "b0fac2271e2334e3",
+	"device_type" : "Android",
+	"status" : "offline",
+	"updated_at" : "2017-12-12 18:34:48",
+	"websocket_key" : "kbIIn4XawxUfjOiXD2WR1A=="
+},
+{
+	"_id" : ObjectId("5a30b9f27cce3a12f4e3c01c"),
+	"device_id" : "124C038B-9FE9-485D-BD35-1824070D7247",
+	"device_type" : "Ios",
+	"status" : "online",
+	"updated_at" : "2017-12-14 19:48:10",
+	"websocket_key" : "bWRqc3hvbHlicGR0b3ZraQ=="
+},
