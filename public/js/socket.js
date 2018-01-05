@@ -11,8 +11,8 @@ var self = this;
 //        console.log("socket open --- "+i);
 //    };
 //}
-//var sock = new WebSocket("ws://ws.cricketfastliveline.com:5002");
- var sock = new WebSocket("ws://192.168.1.9:5002");
+   var sock = new WebSocket("ws://ws.cricketfastliveline.com:5002");
+// var sock = new WebSocket("ws://192.168.1.9:5002");
 //Client side App side changes
 sock.onopen = function (event) {
     console.log("Socket connection open!");
