@@ -317,7 +317,8 @@ s.on('connection', function (ws, req) {
                                         type: 'broadcast_api',
                                         api: 'getCricAPI',
                                         response_status: '1',
-                                        data: result
+                                        data: result,
+                                        status: 'fullscorecard',
                                     }), function ack(error) {
                                 // If error is not defined, the send has been completed, otherwise the error
                                 // object will indicate what failed.
