@@ -397,7 +397,9 @@ s.on('connection', function (ws, req) {
                 });
 
             } else if (api == 'getCricStartedMatchAPI') {
-
+                console.log("***************************");
+                console.log("api: ", api);
+                console.log("*********************");
                 match_process.getCricStartedMatchAPI(params, function (error, result) {
                     console.log("======= getCricStartedMatchAPI ======");
                     console.log(result);
