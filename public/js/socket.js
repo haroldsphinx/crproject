@@ -38,18 +38,18 @@ sock.onopen = function (event) {
         utype: 'desktop'
     }));
 
-    setTimeout(function () {
-        var data = {
-            'api': 'getCricStartedMatchAPI',
-            'params': {},
-        };
-        sock.send(JSON.stringify({
-            type: "broadcast_api",
-            id: "socket_admin",
-            data: data,
-        }));
-
-    }, 3000);
+//    setTimeout(function () {
+//        var data = {
+//            'api': 'getCricStartedMatchAPI',
+//            'params': {},
+//        };
+//        sock.send(JSON.stringify({
+//            type: "broadcast_api",
+//            id: "socket_admin",
+//            data: data,
+//        }));
+//
+//    }, 3000);
 
 
 }
